@@ -1,0 +1,53 @@
+﻿@page "/notes"
+@using BlazorNotes.Shared
+@inject HttpClient Http
+
+<h1>Notes</h1>
+
+<button @onclick="AddNote">Add random note</button>
+
+@if (notes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var note in notes)
+            {
+                <tr>
+                    <td>@note.Date</td>
+                    <td>@note.Author</td>
+                    <td>@note.Content</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Note> notes;
+
+    void AddNote()
+    {
+        notes.Add(new Note
+        {
+            Date = DateTime.Now.Date,
+            Author = "Borowy",
+            Content = "Fooo"
+        });
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        notes = await Http.GetJsonAsync<List<Note>>("Note");
+    }
+}
