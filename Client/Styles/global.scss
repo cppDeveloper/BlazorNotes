@@ -1,0 +1,11 @@
+﻿$foo: #f23282;
+
+@mixin flex-row() {
+    display: flex;
+    flex-direction: row;
+}
+
+.foo {
+    @include flex-row;
+    color: $foo;
+}
